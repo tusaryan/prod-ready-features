@@ -39,4 +39,10 @@ public class PostController {
         //we've not added any validation in PostDTO. Try that yourself.
         return postService.createNewPost(inputPost);
     }
+
+    @PutMapping("/{postId}")
+    public PostDTO updatePost(@RequestBody PostDTO inputPost, @PathVariable Long postId) {
+        //we've not added any validation in PostDTO. Try that yourself.
+        return postService.updatePost(inputPost, postId);
+    }
 }

@@ -57,4 +57,23 @@ public class PostServiceImpl implements PostService {
         //converting this postEntity to PostDTO class with the help of model mapper
         return modelMapper.map(postEntity, PostDTO.class);
     }
+
+
+    //to update a Post
+    @Override
+    public PostDTO updatePost(PostDTO inputPost, Long postId) {
+        //find and get the older post by id
+        PostEntity olderPost = postRepository
+                .findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id : " + postId));
+        //since inputPost might not have the id so set it first so that it is not null after update
+        inputPost.setId(postId);
+        //to put all the changes from inputPost and update it inside olderPost
+        //.map(source, destination)
+        modelMapper.map(inputPost, olderPost);
+        //saving updated olderPost
+        PostEntity savedPostEntity = postRepository.save(olderPost);
+        //converting entity to dto since we have to return a DTO
+        return modelMapper.map(savedPostEntity, PostDTO.class);
+    }
 }

@@ -1,0 +1,19 @@
+L4.3
+
+Similar to git : to look for changes inside our code, we have
+
+Auditing : to look for changes made inside our database (DB).
+
+Using Spring Data JPA or Hibernate Envers, we can setup auditing feature.
+
+AuditorAware explanation Step 3.
+
+@PrePersist : triggered just before saving the entity. So, basically this will modify the CreateBy and CreatedDate fields inside the entity
+
+@PreUpdate : triggered just before updating the entity. So, basically this will modify the LastModifiedBy and LastModifiedDate fields inside the entity
+
+How does this code know who making these changes/ How we are getting the user who updated? explanation -> 26:16
+Due to AuditorAware Implementation which is attached with JpaAuditing by @EnableJpaAuditing(auditorAwareRef = )
+which is binding us with the user who is actually making the changes. And those bound results are populated inside our DB.
+
+Hibernate Envers -> it uses a lot of DB due to which many companies don't use it. To track the versioning of DB changes we use this. we can achieve this manually too.
