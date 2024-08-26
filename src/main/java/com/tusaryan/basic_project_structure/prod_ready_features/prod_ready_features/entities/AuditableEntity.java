@@ -5,6 +5,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +22,10 @@ import java.time.LocalDateTime;
 //to make this entity as auditable, and it is of kind AuditingEntityListener.class , Also add @EnableJpaAuditing to configuration class to enable auditing.
 @EntityListeners(AuditingEntityListener.class)
 //now this is our base entity, and now this is listening for all the events
+
+//to add hibernate-envers support to track auditing
+// add @Audited in the entities you want to audit
+@Audited
 public class AuditableEntity {
     //This @EntityListeners will automatically populate these fields on our behalf every time there is any creation or updation.
     //this automatically fill the created time in createdDate variable

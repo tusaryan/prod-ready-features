@@ -2,6 +2,8 @@ package com.tusaryan.basic_project_structure.prod_ready_features.prod_ready_feat
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 @Entity
 @Table(name = "posts")
@@ -15,6 +17,7 @@ import lombok.*;
 
 //to make this entity as auditable, and it is of kind AuditingEntityListener.class , Also add @EnableJpaAuditing to configuration class to enable auditing.
 //@EntityListeners(AuditingEntityListener.class)
+@Audited
 public class PostEntity extends AuditableEntity {
 
     //for now, we're ignoring the part to create base entity to make it auditable. we are using PostEntity to do that.
@@ -24,6 +27,9 @@ public class PostEntity extends AuditableEntity {
     private Long id;
 
     private String title;
+
+    // to exclude some field from being audited
+    // @NotAudited
     private String description;
 
     /**

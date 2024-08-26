@@ -17,3 +17,10 @@ Due to AuditorAware Implementation which is attached with JpaAuditing by @Enable
 which is binding us with the user who is actually making the changes. And those bound results are populated inside our DB.
 
 Hibernate Envers -> it uses a lot of DB due to which many companies don't use it. To track the versioning of DB changes we use this. we can achieve this manually too.
+
+How to enable auditing using Data JPA? Short explanation 43:31
+Steps:
+Go to your entity and extends that class with "AuditableEntity" to get the below annotation
+use @EntityListeners then listen to this particular listener (AuditingEntityListener.class)
+then populate all these fields like CreatedBy, CreatedDate, etc.
+to populate those create a new class which implements AuditorAware interface. And inside this class pass the user who is making changes

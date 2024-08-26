@@ -71,7 +71,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
 			<version>6.5.2.Final</version>
-			<type>pom</type>
 		</dependency>
 
 	</dependencies>
