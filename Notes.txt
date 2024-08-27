@@ -24,3 +24,12 @@ Go to your entity and extends that class with "AuditableEntity" to get the below
 use @EntityListeners then listen to this particular listener (AuditingEntityListener.class)
 then populate all these fields like CreatedBy, CreatedDate, etc.
 to populate those create a new class which implements AuditorAware interface. And inside this class pass the user who is making changes
+
+
+L4.4
+
+earlier RestTemplate was used.
+RestClient : used to get the data present in other third party server. Using RestClient we can do all Rest operations like get,put,patch,delete.
+It works in blocking manner (Synchronous code) i.e. unless you receive your data your code below(is blocked) it will not execute
+
+why List<EmployeeDTO> return type is wrong 19:46
