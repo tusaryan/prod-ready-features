@@ -29,7 +29,26 @@ to populate those create a new class which implements AuditorAware interface. An
 L4.4
 
 earlier RestTemplate was used.
+we don't require any other dependency, RestClient is build in spring web.
 RestClient : used to get the data present in other third party server. Using RestClient we can do all Rest operations like get,put,patch,delete.
 It works in blocking manner (Synchronous code) i.e. unless you receive your data your code below(is blocked) it will not execute
 
 why List<EmployeeDTO> return type is wrong 19:46
+
+
+
+L4.5 Logging in Spring Boot Applications
+
+it is added inside spring boot starter dependency
+SFL4J - stands for "Simple Logging Facade for Java". Facade means that it has abstracted out all the integrity details for setting up your logging framework,
+and we can directly start using it.
+Can use it to log in some files, log on different types of levels like error logs, debug log, trace log etc.
+
+logback
+log4j
+slf4j
+jul(java utility logging)
+
+can use any of the above, but we'll be using logback
+
+five log level(to know the severity of error) explanation - 06:30

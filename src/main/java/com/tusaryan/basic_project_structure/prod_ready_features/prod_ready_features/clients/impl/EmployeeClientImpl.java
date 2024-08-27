@@ -33,8 +33,26 @@ public class EmployeeClientImpl implements EmployeeClient {
     //inject RestClient bean
     private final RestClient restClient;
 
+    //creating instance of logger, import from org.slf4j
+    //inside .getLogger(pass the name of the class that is instantiating this particular log)
+    //why did we pass this class? so that our logger can specify the name of class correctly
+    Logger log = LoggerFactory.getLogger(EmployeeClientImpl.class);
+
     @Override
     public List<EmployeeDTO> getAllEmployees() {
+
+        //these are just the markers/tags for the logs they don't really mean anything
+        /**
+        log.error("error log");
+        log.warn("warn log");
+        log.info("info log");
+        log.debug("debug log");
+        log.trace("trace log");
+         */
+        //we can only see the top three logs
+        //till info the logs are enabled by default
+        //to see debug and trace log -> enable it by "setting Log levels" in application.properties for different packages
+
         //using the restClient to call the API
         //there could be a lot of error in this process. for eg: We're passing wrong data - Client Error(4XX Errors), Server Runtime error - server related error i.e. 500 error, if server not running then Connection error
         try {

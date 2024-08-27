@@ -24,7 +24,7 @@ class ProdReadyFeaturesApplicationTests {
 	@Test
 	//to change the order of test case running
 	@Order(3)
-	void getAllEmployees() {
+	void getAllEmployeesTest() {
 		//using employeeClient to get all the employees
 		List<EmployeeDTO> employeeDTOList = employeeClient.getAllEmployees();
 		//printing all the employees list
