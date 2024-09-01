@@ -65,6 +65,9 @@ log.pattern.console = %d [%level] %c{1.} [%t] %m%n
 Log Handlers
 to set pattern for log file -> log.pattern.file = %clr (%d{yyyy-MM-dd  HH:mm:ss:SSS}){green} [%level] %c{1.} [%t] %m%n
 
+
+
+
 L4.6 Spring Boot Actuator
 to use it just add its dependency in pom.xml
 
@@ -87,3 +90,25 @@ All actuators endpoints explanation
 to change the base path of actuator. eg: from "http://localhost:9000/actuator" to "http://localhost:9000/management" or "http://localhost:9000/anything"
 management.endpoints.web.base-path=/management
 management.endpoints.web.base-path=/anything
+
+
+
+
+L4.7 OpenAPI and Swagger
+
+OpenAPI and Swagger : generate APIs docs on our behalf.
+
+Springdoc OpenAPI : library to simplify integration of Swagger UI and OpenAPI 3 into Spring Boot applications. without writing a piece of code we can generate our RestAPI documentation.
+official documentation link : https://springdoc.org/
+
+just add its dependency in pom.xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.5.0</version>
+</dependency>
+
+To access api-doc :  /v3/api-docs -> http://localhost:9000/v3/api-docs
+port = 9000 may change a/c to your application port
+
+To access swagger-ui : /swagger-ui/index.html
