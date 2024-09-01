@@ -65,7 +65,8 @@ log.pattern.console = %d [%level] %c{1.} [%t] %m%n
 Log Handlers
 to set pattern for log file -> log.pattern.file = %clr (%d{yyyy-MM-dd  HH:mm:ss:SSS}){green} [%level] %c{1.} [%t] %m%n
 
-
+L4.6 Spring Boot Actuator
+to use it just add its dependency in pom.xml
 
 Logback Configuration XML : 36:48
 Creating a rolling log. Different logs in different files. Eg. log for day 1, 2... in separate files.
@@ -81,3 +82,8 @@ To inform our spring boot application to use different logging/ to use Logback(i
 Classpath : is the folder in which your code is written.
 
 Explaining Logback configuration tags - 39:00
+All actuators endpoints explanation
+
+to change the base path of actuator. eg: from "http://localhost:9000/actuator" to "http://localhost:9000/management" or "http://localhost:9000/anything"
+management.endpoints.web.base-path=/management
+management.endpoints.web.base-path=/anything
