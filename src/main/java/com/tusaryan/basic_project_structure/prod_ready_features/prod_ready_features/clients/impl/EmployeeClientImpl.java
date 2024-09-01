@@ -38,6 +38,13 @@ public class EmployeeClientImpl implements EmployeeClient {
     //why did we pass this class? so that our logger can specify the name of class correctly
     Logger log = LoggerFactory.getLogger(EmployeeClientImpl.class);
 
+
+    /**Writing Log for a production ready application
+     * writing log in service file, because it contains the business logic
+     * since it is very much prone to multiple types of errors, so it makes much more sense to write error logs here
+     */
+
+
     @Override
     public List<EmployeeDTO> getAllEmployees() {
 
@@ -52,16 +59,26 @@ public class EmployeeClientImpl implements EmployeeClient {
         //we can only see the top three logs
         //till info the logs are enabled by default
         //to see debug and trace log -> enable it by "setting Log levels" in application.properties for different packages
+        //we can use log.trace instead of log.info etc. but these are the markers, and it's better to adhere to these markers.
+
+
+        log.trace("Trying to retrieve all employees in getAllEmployees");
 
         //using the restClient to call the API
         //there could be a lot of error in this process. for eg: We're passing wrong data - Client Error(4XX Errors), Server Runtime error - server related error i.e. 500 error, if server not running then Connection error
         try {
+            log.info("Attempting to call the restClient Method in getAllEmployees");
             ApiResponse<List<EmployeeDTO>> employeeDTOList = restClient.get()
                     //this uri will be appended to the base url in RestClient
                     //using this url we get all the employees
                     .uri("employees")
                     //using retrieve method - to get all the data
                     .retrieve()
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        log.error(new String(res.getBody().readAllBytes()));
+                        throw new ResourceNotFoundException("could not create the employee");
+                    })
+
                     //"body" method - to convert the data to a particular type of object
                     //pass what kind of data we are expecting to be returned, List is a parametrized type object so pass this reference
                     //so, it will automatically detect and convert it to List of EmployeeDTO
@@ -71,17 +88,29 @@ public class EmployeeClientImpl implements EmployeeClient {
                     //Suppose return type of method was EmployeeDTO or String then we can use below ".body"
 //                    .body(EmployeeDTO.class)
                     ;
+            //to specify some information about the application
+            log.debug("Successfully retrieved the employees in getAllEmployees");
+
+            //trace : this contains more detailed information about our debug.
+            //to print all the employees, it recommended to use log.trace(message, pass data), we can use log.debug as well but use log.debug only to give detailed info about the application
+            //use curly braces {} in order to pass in "employeeDTOList.getData()" or multiple variables
+            log.trace("Retrieved employees list in getAllEmployees : {}, {}, {}", employeeDTOList.getData(), "Hello", 5);
 
             return employeeDTOList.getData();
+
         } catch (Exception e) {
             //we can also log the errors to see why it is throwing exception / to debug application.
-//            log.error();
+//            log.error(Error log message, pass the error object so that it will automatically print the stack trace);
+
+            //anytime we get an exception we should write an error log there.
+            log.error("Exception occurred in getAllEmployees", e);
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public EmployeeDTO getEmployeeById(Long employeeId) {
+        log.trace("Trying to get employee by Id in getEmployeeById with id: {}", employeeId);
         //it is recommended to use try catch block so that we can add logger statements
         try {
             ApiResponse<EmployeeDTO> employeeResponse = restClient.get()
@@ -90,18 +119,25 @@ public class EmployeeClientImpl implements EmployeeClient {
                     //format of passing values
 //                    .uri("employees/{employeeId}/{abc}/{xyz}", employeeId, "hello", 12.12)
                     .retrieve()
+                    //to show client error
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        log.error(new String(res.getBody().readAllBytes()));
+                        throw new ResourceNotFoundException("could not get employee by id");
+                    })
                     .body(new ParameterizedTypeReference<>(){
                     });
             //this will return the employee with this "employeeId"
             return employeeResponse.getData();
 
         } catch (Exception e) {
+            log.error("Exception occurred in getEmployeeById", e);
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public EmployeeDTO createNewEmployee(EmployeeDTO employeeDTO) {
+        log.trace("Creating an employee with information {}", employeeDTO);
         try {
 //            ApiResponse<EmployeeDTO> employeeDTOApiResponse = restClient.post()
             //when we use toEntity() change return type to ResponseEntity
@@ -115,9 +151,10 @@ public class EmployeeClientImpl implements EmployeeClient {
                     //to handle any error. Pass the type of error
                     //get the request and response object
                     .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        log.debug("4xx client error occurred during createNewEmployee");
                         //to log the error, this will read all the errors that are coming here
                         //currently we are printing all the error in the console which is not recommended, we should log that somewhere else(like in some file)
-                        System.out.println("Error occurred : " + new String(res.getBody().readAllBytes()));
+                        log.error(new String(res.getBody().readAllBytes()));
                         //to throw error
                         throw new ResourceNotFoundException("could not create the employee");
                     })
@@ -131,17 +168,19 @@ public class EmployeeClientImpl implements EmployeeClient {
                     ;
 
             //to get headers if we use ResponseEntity
-            employeeDTOApiResponse.getHeaders();
+//            employeeDTOApiResponse.getHeaders();
 
 
             //return the newly created employee
 //            return employeeDTOApiResponse.getData();
 
             //if we use ResponseEntity
+            log.trace("Successfully created a new employee : {}", employeeDTOApiResponse.getBody());
             return employeeDTOApiResponse.getBody().getData();
         }
         //since we handle 4xx and 5xx error earlier so now exception other than that will be handled here like (Connection Error/Server down)
         catch (Exception e) {
+            log.error("Exception occurred in createNewEmployee", e);
             throw new RuntimeException(e);
         }
     }

@@ -35,7 +35,7 @@ class ProdReadyFeaturesApplicationTests {
 	@Order(2)
 	void getEmployeeByIdTest() {
 		//passing id 1 as 1L since it is of type Long
-		EmployeeDTO employeeDTO = employeeClient.getEmployeeById(1L);
+		EmployeeDTO employeeDTO = employeeClient.getEmployeeById(100L);
 		System.out.println(employeeDTO);
 	}
 

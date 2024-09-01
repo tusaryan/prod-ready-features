@@ -52,3 +52,32 @@ jul(java utility logging)
 can use any of the above, but we'll be using logback
 
 five log level(to know the severity of error) explanation - 06:30
+
+Log Formatter : 30:40
+
+
+define it inside "application.properties"
+log.pattern.console = %d [%level] %c{1.} [%t] %m%n
+%c{1.} -> to define the class path. "1." means we only want the class name
+"2." -> class name and just first package name.
+"3." -> we'll see two package name and one class name. and so on...
+
+Log Handlers
+to set pattern for log file -> log.pattern.file = %clr (%d{yyyy-MM-dd  HH:mm:ss:SSS}){green} [%level] %c{1.} [%t] %m%n
+
+
+
+Logback Configuration XML : 36:48
+Creating a rolling log. Different logs in different files. Eg. log for day 1, 2... in separate files.
+this cannot be configured by "application.properties". We'll have to create separate xml file and configure it. Code in class. Don't learn it just understand, copy-paste and use it.
+
+<property /> tag used for defining variables inside configuration files. "name" is the name of variable.
+<appender> -> it is the handler. It will handle application using a class. eg: RollingFileAppender class
+
+%i -> to append the index number, for example in name.
+To inform our spring boot application to use different logging/ to use Logback(i.e. this file to config logging)
+"logging.config=classpath:logback-spring.xml"
+
+Classpath : is the folder in which your code is written.
+
+Explaining Logback configuration tags - 39:00
